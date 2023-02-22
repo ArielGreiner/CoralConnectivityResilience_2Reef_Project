@@ -1,3 +1,5 @@
+##this code can be used to generate "twopatch_ext_zero_ID_full.RData" but the base files it requires were too big to be uploaded to Github, they can be re-generated using the MATLAB code included in the folder (if you input the appropriate parameter combinations for zero dispersal)
+
 twopatch_ext_zerodisp <- read.table(file = "~/Dropbox/University of Toronto/Research Related/R outputs/Two Patch Elmhirst extended/zero dispersal/twopatch_ext_fiveMA_zerodispersal_done.txt", sep = ",")
 names(twopatch_ext_zerodisp) <- c("g","q_c","p_c","q_m","p_m","Equilibrium","C1","M1","C2","M2","eig_1","eig_2","eig_3","eig_4","troubleshoot")
 head(twopatch_ext_zerodisp)

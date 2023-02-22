@@ -97,6 +97,9 @@ basinsabr <- 0 #clear it, just in case
 } #end of i loop
 
 save(basinsfinal, file = "hg_basinsfinal_done_alllong.RData")
+
+###NOTE: everything after this is redundant or irrelevant, TwoPatchElm_makingfinalgraphs.RData has the relevant parts of the below code
+
 load('~/Dropbox/University of Toronto/Research Related/R outputs/Two Patch Elmhirst extended/Heterogeneous_Grazing/afterdealingwith2856-2900problems/hg_basinsfinal_done_alllong.RData')
 sum(basinsfinal[,13]) #2963631 well that is much better (after 2856-2900 added: 2968131)
 didntfinish_alllong <- which(round(basinsfinal[,13],4) < 100) #41 afer 2856-2900 done; #2855-2900 issues still (i skipped them so that's fair) and then a smattering of others but not many (only 86 total)

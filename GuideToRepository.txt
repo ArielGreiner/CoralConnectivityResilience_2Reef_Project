@@ -1,0 +1,42 @@
+General Note: The coding work for this project was done outside of GitHub and only moved into Github after the manuscript was submitted, thus the file names and directory locations do not match the GitHub file system but the names of the individual items have not been altered so the files should still be traceable.
+
+Notes on specific folders/files:
+
+Scenario_1_and_2_Code
+- SolveTwoPatch_redux.m file (run in MATLAB) -> MATLABoutputreorg files -> compute canada code -> TwoPatchElmhirstExt_Unequal_ID_PlotTrajectories_CalcBOA
+- moved the IDbasedbifurcationdiagrams files to the 'old redundant bifurcation diagram making code' folder because I believe that the contents of those are redundant with the 'TwoPatchElm_makingfinalgraphs.R' file in the 'Generating_Final_Plots_Code' folder
+> TwoPatchElmhirstExt_..._MATLABoutputreorg files
+- can't be run as is, as the MATLAB outputs were too large to upload
+- included in folder to show how "twopatch_ext_complete_IDs.RData" and "twopatch_ext_unequal_complete_IDs.RData" and "twopatch_ext_zero_ID_full.RData" were generated, these are all in the 'Scenario1_2' folder in the 'Code_for_computecanada' folder
+> TwoPatchElmhirstExt_Unequal_ID_PlotTrajectories_CalcBOA
+- can be used to generate "basinsfinalboth.RData"
+- unfortunately also not possible to run because missing the 'basins_recr....RData' files that were too big to upload but can be generated using the files in the 'Code_for_computecanada > Scenario1_2' folder
+- 'basinsfinalboth.RData' has been added to this folder
+
+Scenario_3_Code folder
+- data generated in the TwoPatchElmhirstExt_heteroggrazing_MATLABoutputreorg and TwoPatchElmhirstExt_HeteroGrazing_ID_PlotTrajectories files
+- the _grazingbifurcgraphs and _bifurcgraphs_ctwo files might be entirely redundant with the code in the Generating_Final_PLots_Code but they have been left in in case they contain any additional information/context
+- SolveTwoPatch_redux.m file (run in MATLAB) -> MATLABoutputreorg file -> compute canada code -> TwoPatchElmhirstExt_HeteroGrazing_ID_PlotTrajectories -> _grazingbifurcgraphs and _bifurcgraphs_ctwo files
+> TwoPatchElmhirstExt_heteroggrazing_MATLABoutputreorg
+- can't be run as is, as the MATLAB outputs were too large to upload
+- included in folder to show how 'twopatch_ext_heterograz_ID_full.RData' was generated
+> TwoPatchElmhirstExt_HeteroGrazing_ID_PlotTrajectories
+- can be used to generate 'hg_basinsfinal_done_alllong.RData'
+- unfortunately also not possible to run because missing the 'basins_recr....RData' files that were too big to upload but can be generated using the files in the 'Code_for_computecanada > Scenario3' folder
+- hg_basinsfinal_done_alllong.RData has been added to this folder, twopatch_ext_heterograz_ID_full.RData is in the 'Code_for_computecanada > Scenario3' folder
+
+final plots folder
+- this folder only contains the graphs that I had to make new versions of in 2022, to save space in the repository
+
+Generating_Final_Plots_Code 
+> MultiColourPhasePortraits_7.2022.R
+- re-generated the phase portraits pursuant to reviewer comments, this code replaces the code for the phase portraits in the 'TwoPatchElm_makingfinalgraphs.R' file
+	- otherwise, this should contain the final code for generating all of the plots in the manuscript + supplementary material
+
+
+
+
+
+
+things to check:
+- do i need to import the content in 'dataforheatmaps'? and what should those files be called?

@@ -1,15 +1,17 @@
+##can use this file to make "basinsfinalboth.RData" but missing basins_recr files and other misc files that need to be generated using the code in the Scenario1_2 compute canada folder but were too big to upload to github
+
 library(scales)
 library(deSolve)
 library(fields)
 
 
 #load + compile data
-load('~/Dropbox/University of Toronto/Research Related/R outputs/Two Patch Elmhirst extended/Unequal coral macroalgal dispersal/twopatch_ext_unequal_complete_IDs.RData')
+load('~/Dropbox/University of Toronto/Research Related/R outputs/Two Patch Elmhirst extended/Unequal coral macroalgal dispersal/twopatch_ext_unequal_complete_IDs.RData') #this file can be generated via running 'TwoPatchElmhistExt_unequal_MATLABoutputreorg.R', is included in the code_for_computecanada folder
 twopatch_ext_unequal_complete_IDs$colour <- NULL
 
 
 #need to add twopatch_ext_complete_IDs in
-load('~/Documents/computecanadajune2019/twopatch_ext_complete_IDs.RData') #probably should replace this with a link to something in dropbox
+load('~/Dropbox/University of Toronto/Research Related/R outputs/Two Patch Elmhirst extended/complete_run/Equi tracking/twopatch_ext_complete_IDs.RData') #included in the code_for_computecanada folder
 twopatch_ext_complete_IDs$symbol <- NULL
 twopatch_ext_complete_IDs$percentofcoral <- 100
 
@@ -102,27 +104,6 @@ sum(basinsfinal[,10]) #4900412 vs 4900500
 basinsfinal[which(round(basinsfinal[,10],4) < 100),] #okay there's only 8 conditions that didn't finish, 4 of them got to 99.5% and the others are 81.4,72.4,85.7,74.8 which isn't so bad...no new equi and they all were in didntfinish and all went up incrementally so i kind of feel like it's not worth running them again for even longer
 
 
-#old - before added extralong traj
-load('~/Dropbox/University of Toronto/Research Related/R outputs/Two Patch Elmhirst extended/Unequal coral macroalgal dispersal/Basin of Attraction Work/BoAwork_6equibadversion/basinsfinal_done_6equi.rdata')
-load('~/Dropbox/University of Toronto/Research Related/R outputs/Two Patch Elmhirst extended/Unequal coral macroalgal dispersal/Basin of Attraction Work/BoAwork_6equibadversion/basinsfinal_done_6equi_redo.rdata') #added 'sum' in better, everything directly below here used the non-redo version 
-sum(basinsfinal[,10] == 100) #47234/49005 work
-sum(basinsfinal[,10]) #4900254 vs 4900500 = (100*49005) bc many of the ones less than 100 are >99
-sum((basinsfinal[,10]*210)/100) #10290533 trajectories finished out of a total of 10,291,050 (0.005% didn't finish)
-didntfinish <- basinsfinal[which(round(basinsfinal[,10],4) < 100),]
-dim(didntfinish) #121 rows
-sum(didntfinish[,10]) #4900254+(121*100 - 11853.81) = 4900500 so that's all of them :)
-hist(didntfinish[,3]) #1/2 from lvl = 1, most from g=0.4, even spread re: dispersal 
-save(didntfinish,file="didntfinish_trajectoriestorecalc.RData") 
-#troule <- c(1:49005)
-#troule[basinsfinal[,10] < 100]
-basinsfinal[2000:4000,10] #some here that aren't =100
-basinsfinal[2080,] #NAs also
-basinsfinal[3367,] #this one has NAs in the respective basinsabr file, 73% total
-basinsfinal[3960,] #1 NA
-#^ issue with NAs due to other code, not issue with forloop above..also sometimes this happens when oonly one of first twoo equi are present so unlikely to be disrupting things too much...
-load(paste0("~/Documents/computecanadajune2019/sept2019run/BoAID_better/basinofattractionID_recr",recruitvalue,"g",g_val,"_",lvl*100,"percentofcoral_5850.RData"))
-head(basinofattractionID) #yup a bunch of the initial conditions don't finish
-
 #generate a basinsfinal file for zero dispersal level
 #load + compile data
 load('~/Dropbox/University of Toronto/Research Related/R outputs/Two Patch Elmhirst extended/zero dispersal/twopatch_ext_zero_ID_full.RData')
@@ -208,110 +189,6 @@ which(round(basinsfinalzero[,10],4) < 100) #40, so just 1 didnt totally finish -
 #yeah only 200/210 finished so im not missing any equi possibilities or anything
 ########
 
-#Plot Trajectories + Equi Points
-#load equi points (SHOULD PROBABLY REDO THE EQUAL ONES TOO)
-load('~/Dropbox/University of Toronto/Research Related/R outputs/Two Patch Elmhirst extended/Unequal coral macroalgal dispersal/twopatch_ext_unequal_complete_IDs.RData')
-twopatch_ext_complete <- twopatch_ext_unequal_complete_IDs #dont use for plotting BoAs
-
-#for the really small dispersal ones
-load('~/Dropbox/University of Toronto/Research Related/R outputs/Two Patch Elmhirst extended/Small Coral Dispersal_full/dataframes with all values_1e-80smallest/twopatch_ext_equal_ID_full.RData')
-twopatch_ext_complete <-twopatch_ext_equal_ID_full
-
-#would ideally give every ID a unique symbol but there's 95 of them...need to think about this, going to stick with the equi version for now bc that's more reliable
-range(twopatch_ext_complete$Equilibrium) #1 to 10 
-twopatch_ext_complete$symbol <- NA
-twopatch_ext_complete$symbol[twopatch_ext_complete$Equilibrium == 1] <- 1
-twopatch_ext_complete$symbol[twopatch_ext_complete$Equilibrium == 2] <- 2
-twopatch_ext_complete$symbol[twopatch_ext_complete$Equilibrium == 3] <- 3
-twopatch_ext_complete$symbol[twopatch_ext_complete$Equilibrium == 4] <- 4
-twopatch_ext_complete$symbol[twopatch_ext_complete$Equilibrium == 5] <- 5
-twopatch_ext_complete$symbol[twopatch_ext_complete$Equilibrium == 6] <- 6
-twopatch_ext_complete$symbol[twopatch_ext_complete$Equilibrium == 7] <- 15
-twopatch_ext_complete$symbol[twopatch_ext_complete$Equilibrium == 8] <- 8
-twopatch_ext_complete$symbol[twopatch_ext_complete$Equilibrium == 9] <- 16
-twopatch_ext_complete$symbol[twopatch_ext_complete$Equilibrium == 10] <- 17
-
-#loop through iterator to avoid the use of 3 nested for loops
-lvls <- c(rep(1,99*99),rep(0.05,99*99),rep(0.1,99*99),rep(0.25,99*99),rep(0.5,99*99))
-grazing <- c(rep(seq(0.01,0.99,0.01), each = 99),rep(seq(0.01,0.99,0.01), each = 99),rep(seq(0.01,0.99,0.01), each = 99),rep(seq(0.01,0.99,0.01), each = 99),rep(seq(0.01,0.99,0.01), each = 99))
-recruit <-c(rep(seq(0.01,0.99,0.01), 99),rep(seq(0.01,0.99,0.01), 99),rep(seq(0.01,0.99,0.01), 99),rep(seq(0.01,0.99,0.01), 99),rep(seq(0.01,0.99,0.01), 99))
-iterator <- matrix(c(lvls,grazing,recruit),nrow=length(lvls),ncol=3)
-
-#for loop - looping through the mumbytrajectories folder
-
-#load in lvl, recruitvalue,g_val from iterator
-
-#load mumbytrajectories file
-#load('~/Documents/computecanadajune2019/mumbytrajectories_recr0.15g0.26_5percentofcoral.RData')
-#lvl = 0.05
-#recruitvalue = 0.15
-#g_val = 0.26
-
-#load('/Volumes/Ariel PhD Stuff/smallrun_full_better/mumbytraj_better/mumbytrajectories_recr0.1g0.27_5percentofcoral.RData')
-#lvl = 0.05
-#recruitvalue = 0.1
-#g_val = 0.27
-
-#load('/Volumes/Ariel PhD Stuff/smallrun_full_better/mumbytraj_better/mumbytrajectories_recr0.1g0.27_10percentofcoral.RData')
-#lvl = 0.10
-#recruitvalue = 0.1
-#g_val = 0.27
-
-#load('/Volumes/Ariel PhD Stuff/smallrun_full_better/mumbytraj_better/mumbytrajectories_recr0.1g0.27_25percentofcoral.RData')
-#lvl = 0.25
-#recruitvalue = 0.1
-#g_val = 0.27
-
-#load('/Volumes/Ariel PhD Stuff/smallrun_full_better/mumbytraj_better/mumbytrajectories_recr0.1g0.27_50percentofcoral.RData')
-#lvl = 0.50
-#recruitvalue = 0.1
-#g_val = 0.27
-
-load('~/Documents/computecanadajune2019/mumbytrajectories_recr1e-20g0.3_100percentofcoral.RData')
-lvl = 1
-recruitvalue = 1e-20
-g_val = 0.3
-
-bluefunc <- colorRampPalette(c("lightblue", "darkblue"))
-#bluefunc <- colorRampPalette(c("lightblue", "red")) #looked sort of misleading
-bluefunc_ten <- bluefunc(11)
-mumbytrajectories$colour[is.element(mumbytrajectories$TimeStep, seq(1,500))] <- bluefunc_ten[1]
-mumbytrajectories$colour[is.element(mumbytrajectories$TimeStep, seq(501,1000))] <- bluefunc_ten[2]
-mumbytrajectories$colour[is.element(mumbytrajectories$TimeStep, seq(1001,1500))] <- bluefunc_ten[3]
-mumbytrajectories$colour[is.element(mumbytrajectories$TimeStep, seq(1501,2000))] <- bluefunc_ten[4]
-mumbytrajectories$colour[is.element(mumbytrajectories$TimeStep, seq(2001,2500))] <- bluefunc_ten[5]
-mumbytrajectories$colour[is.element(mumbytrajectories$TimeStep, seq(2501,3000))] <- bluefunc_ten[6]
-mumbytrajectories$colour[is.element(mumbytrajectories$TimeStep, seq(3001,3500))] <- bluefunc_ten[7]
-mumbytrajectories$colour[is.element(mumbytrajectories$TimeStep, seq(3501,4000))] <- bluefunc_ten[8]
-mumbytrajectories$colour[is.element(mumbytrajectories$TimeStep, seq(4001,4500))] <- bluefunc_ten[9]
-mumbytrajectories$colour[is.element(mumbytrajectories$TimeStep, seq(4501,5001))] <- bluefunc_ten[10]
-mumbytrajectories$colour[is.element(mumbytrajectories$TimeStep, seq(5001,5850))] <- bluefunc_ten[11]
-
-rounddig <- 90 #needs to be like this for twopatch_ext_unequal_complete_IDs but for the _full_ ones need it to be 90
-
-#non-transparent, M1C1 C1C2 M2C2 M1M2 graphs
-#pdf(paste0("TrajectoryPlot_Grazing", g_val,"Recruitment",recruitvalue,"percentofcoral",lvl*100,".pdf"))
-png(paste0("TrajectoryPlot_Grazing", g_val,"Recruitment",recruitvalue,"percentofcoral",lvl*100,".png"))
-par(mfrow = c(2,2))
-plot(x = mumbytrajectories$M1, y = mumbytrajectories$C1, pch = ".", col = mumbytrajectories$colour,xlab = "M1 cover", ylab = "C1 cover", main = paste("Recruitment = ", recruitvalue, ", grazing = ", g_val, "percentofcoral",lvl*100))
-points(x = twopatch_ext_complete$M1[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val], y = twopatch_ext_complete$C1[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val], col = twopatch_ext_complete$Colour[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val],  xlim = c(0,1), ylim = c(0,1), pch = twopatch_ext_complete$symbol[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val])
-
-plot(x = mumbytrajectories$M1, y = mumbytrajectories$M2, pch = ".", col = mumbytrajectories$colour,xlab = "M1 cover", ylab = "M2 cover", main = paste("Recruitment = ", recruitvalue, ", grazing = ", g_val, "percentofcoral",lvl*100))
-points(x = twopatch_ext_complete$M1[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val], y = twopatch_ext_complete$M2[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val], col = twopatch_ext_complete$Colour[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val],  xlim = c(0,1), ylim = c(0,1), pch = twopatch_ext_complete$symbol[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val])
-
-plot(x = mumbytrajectories$C1, y = mumbytrajectories$C2, pch = ".", col = mumbytrajectories$colour,xlab = "C1 cover", ylab = "C2 cover", main = paste("Recruitment = ", recruitvalue, ", grazing = ", g_val, "percentofcoral",lvl*100))
-points(x = twopatch_ext_complete$C1[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val], y = twopatch_ext_complete$C2[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val], col = twopatch_ext_complete$Colour[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val],  xlim = c(0,1), ylim = c(0,1), pch = twopatch_ext_complete$symbol[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val])
-
-plot(x = mumbytrajectories$M2, y = mumbytrajectories$C2, pch = ".", col = mumbytrajectories$colour,xlab = "M2 cover", ylab = "C2 cover", main = paste("Recruitment = ", recruitvalue, ", grazing = ", g_val, "percentofcoral",lvl*100))
-points(x = twopatch_ext_complete$M2[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val], y = twopatch_ext_complete$C2[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val], col = twopatch_ext_complete$Colour[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val],  xlim = c(0,1), ylim = c(0,1), pch = twopatch_ext_complete$symbol[twopatch_ext_complete$p_c == recruitvalue & twopatch_ext_complete$p_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$q_c == recruitvalue & twopatch_ext_complete$q_m == round(recruitvalue*lvl,rounddig) & twopatch_ext_complete$g == g_val])
-
-dev.off()
-
-
-
-
-
-
 
 #Plot change in BoA size?
 #plot a heatmap of basin sizes for all percentcoral levels and all 4 equi types
@@ -354,7 +231,7 @@ load('~/Dropbox/University of Toronto/Research Related/R outputs/Two Patch Elmhi
 #basinsfinalboth <- rbind(basinsfinalzero, basinsfinal) #NEED TO FEED IT IN IN A FANCIER WAY
 #basinsfinalboth <- rbind(basinsfinalzero,five_basinsfinalzero,ten_basinsfinalzero,twentyfive_basinsfinalzero,fifty_basinsfinalzero, basinsfinal)
 
-
+##NOTE: everything below here should either be old or redundant with the contents of 'TwoPatchElm_makingfinalgraphs.R'
 
 basinsfinalabr <- basinsfinalboth[basinsfinalboth[,3] <= 0.45,]  #bc Marty wanted to make the heatmaps ignoring the coral dispersal values greater than 0.4 bc nothing happens above that
 
